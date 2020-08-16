@@ -33,6 +33,7 @@ jobs:
           ###### End of Repository/Build Configurations ######
       - name: zip
         run: zip -r backup.zip *
+        continue-on-error: true
       - name: backup
         uses: actions/upload-artifact@v2
         with:
