@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace AzureSwaBlazorWasmDemo
+namespace Client
 {
     public class Program
     {
@@ -17,7 +17,8 @@ namespace AzureSwaBlazorWasmDemo
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            var baseAddress = builder.Configuration["BaseAddress"] ?? builder.HostEnvironment.BaseAddress;
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddress) });
 
             await builder.Build().RunAsync();
         }
