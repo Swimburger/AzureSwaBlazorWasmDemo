@@ -1,0 +1,41 @@
+# create folder for multiple projects
+mkdir AzureSwaBlazorWasmDemo
+cd AzureSwaBlazorWasmDemo
+# create folder for Blazor WASM Client
+mkdir Client
+cd Client
+dotnet new blazorwasm
+
+dotnet run
+# info: Microsoft.Hosting.Lifetime[0]
+#       Now listening on: https://localhost:5001
+# info: Microsoft.Hosting.Lifetime[0]
+#       Now listening on: http://localhost:5000
+# info: Microsoft.Hosting.Lifetime[0]
+#       Application started. Press Ctrl+C to shut down.
+# info: Microsoft.Hosting.Lifetime[0]
+#       Hosting environment: Development
+# info: Microsoft.Hosting.Lifetime[0]
+#       Content root path: C:\Users\niels\source\repos\AzureSwaBlazorWasmDemo\Client
+
+dotnet publish -c Release
+# Microsoft (R) Build Engine version 16.7.0+b89cb5fde for .NET
+# Copyright (C) Microsoft Corporation. All rights reserved.
+# 
+#   Determining projects to restore...
+#   All projects are up-to-date for restore.
+#   Client -> C:\Users\niels\source\repos\AzureSwaBlazorWasmDemo\Client\bin\Release\netstandard2.1\Client.dll
+#   Client (Blazor output) -> C:\Users\niels\source\repos\AzureSwaBlazorWasmDemo\Client\bin\Release\netstandard2.1\wwwroot
+#   Client -> C:\Users\niels\source\repos\AzureSwaBlazorWasmDemo\Client\bin\Release\netstandard2.1\publish\
+
+# Create .NET Core Azure Functions project
+# make sure Azure Functions Core Tools are installed: https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=windows%2Ccsharp%2Cbash#install-the-azure-functions-core-tools
+mkdir Api
+cd Api
+# creates Azure Functions project
+func init --worker-runtime dotnet
+# creates Azure Function called 'WeatherForecast'
+func new --language C# --template "Http Trigger" --name WeatherForecast
+
+# starts Azure Function with `cors` flag which allows the client to communicate with the function
+func start --cors "https://localhost:5001,http://localhost:5000"
